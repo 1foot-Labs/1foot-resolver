@@ -21,7 +21,7 @@ func CreateHTLCForEthereum(
 	privateKeyHex string,
 	contractAddressHex string,
 	receiverHex string,
-	secretHex string,
+	secretSHA256Hex string,
 	timelockSeconds int64,
 	amountInWei *big.Int,
 ) (string, error) {
@@ -72,8 +72,10 @@ func CreateHTLCForEthereum(
 	// Prepare args
 	contractAddress := common.HexToAddress(contractAddressHex)
 	receiver := common.HexToAddress(receiverHex)
-	secret, _ := hex.DecodeString(secretHex)
-	hashLock := crypto.Keccak256Hash(secret)
+	secretSHA256, _ := hex.DecodeString(secretSHA256Hex)
+	var hashLock [32]byte
+	copy(hashLock[:], secretSHA256)
+
 	timelock := big.NewInt(time.Now().Unix() + timelockSeconds)
 
 	// Pack input data
