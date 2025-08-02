@@ -11,7 +11,7 @@ import (
 	"github.com/btcsuite/btcutil"
 )
 
-func CreateHTLCForBitcoin(sha256Hex, makerBTCPubKeyHex string) {
+func CreateHTLCForBitcoin(sha256Hex, makerBTCPubKeyHex string) (string, string) {
 	resolverWIFStr := "cNN2Rn61aVDRuYeNNu4v4zUF13zfmWunsmoSDdYhDrkL7CFVDvZa"
 
 	fmt.Println("🔗 Creating HTLCs...")
@@ -76,6 +76,8 @@ func CreateHTLCForBitcoin(sha256Hex, makerBTCPubKeyHex string) {
 
 	fmt.Println("🔐 Redeem Script (hex):", hex.EncodeToString(redeemScript))
 	fmt.Println("📬 P2SH Address        :", address.EncodeAddress())
+
+	return hex.EncodeToString(redeemScript), address.EncodeAddress()
 }
 
 func getCurrentBlockHeight() (int64, error) {
